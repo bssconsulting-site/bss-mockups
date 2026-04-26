@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços — BS&S Consulting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#f0ece6;--bg2:#e8e2db;--dark:#1a2232;--navy:#1e3a5f;--gold:#b8882a;--muted:#8a7d6e;--line:rgba(26,34,50,.1)}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--dark);overflow-x:hidden}
+
+        .sticky-bar{position:fixed;inset:0 0 auto 0;z-index:600;padding:.85rem 5vw;background:rgba(240,236,230,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:2.5rem;opacity:0;pointer-events:none;transition:opacity .3s}
+        .sticky-bar.vis{opacity:1;pointer-events:auto}
+        .sticky-bar a{color:rgba(26,34,50,.6);text-decoration:none;font-size:.88rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color .25s}
+        .sticky-bar a:hover{color:var(--navy)}
+        .sticky-sep{color:rgba(184,136,42,.35);font-size:.6rem}
+
+        .logo-top{background:var(--bg);padding:3.5rem 5vw 2.5rem;display:flex;flex-direction:column;align-items:center;text-align:center;border-bottom:1px solid var(--line)}
+        .logo-top img{height:100px;max-width:360px;width:100%;object-fit:contain;display:block;margin:0 auto;mix-blend-mode:multiply}
+        .logo-top-nav{display:flex;align-items:center;gap:2.2rem;margin-top:1.6rem;padding:.6rem 2.5rem;border-top:1px solid rgba(184,136,42,.18);border-bottom:1px solid rgba(184,136,42,.18)}
+        .logo-top-nav a{color:rgba(26,34,50,.6);text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:color .25s}
+        .logo-top-nav a:hover{color:var(--navy)}
+        .logo-top-sep{width:4px;height:4px;border-radius:50%;background:rgba(184,136,42,.35)}
+
+        .page-header{background:var(--dark);padding:5rem 5vw 7rem;position:relative;overflow:hidden}
+        .page-header::before{content:'Serviços';position:absolute;right:-2vw;bottom:-2rem;font-family:'Cormorant Garamond',serif;font-size:clamp(8rem,18vw,18rem);font-weight:600;color:transparent;-webkit-text-stroke:1px rgba(184,136,42,.08);letter-spacing:-5px;white-space:nowrap;line-height:1;pointer-events:none;user-select:none}
+        .ph-inner{max-width:1240px;margin:0 auto;position:relative}
+        .section-tag{font-size:.7rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:1.75rem}
+        .page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:600;line-height:1.12;color:#f0ece6;margin-bottom:1.5rem;letter-spacing:-1px}
+        .page-header h1 em{font-style:italic;color:#d4a850}
+        .page-header p{color:rgba(240,236,230,.55);font-size:1.05rem;line-height:1.85;max-width:620px}
+
+        /* ── CARROSSEL INFINITO ── */
+        .services-section{background:var(--bg);padding:7rem 0 8rem}
+
+        .section-intro{max-width:1240px;margin:0 auto;padding:0 5vw;margin-bottom:5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:3rem}
+        .section-intro h2{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:600;color:var(--dark);line-height:1.2;letter-spacing:-1px}
+        .section-intro h2 em{font-style:italic;color:var(--gold)}
+        .intro-note{font-size:.8rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;white-space:nowrap;padding-bottom:.25rem;border-bottom:1px solid rgba(184,136,42,.2)}
+
+        /* fade edges */
+        .marquee-outer{overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent 0,black 6%,black 94%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,black 6%,black 94%,transparent 100%)}
+        .marquee-track{display:flex;gap:1.5rem;width:max-content;animation:marqueeScroll 52s linear infinite}
+        .marquee-track:hover{animation-play-state:paused;cursor:default}
+        @keyframes marqueeScroll{to{transform:translateX(-50%)}}
+
+        .mqcard{width:320px;flex-shrink:0;background:#fff;border-left:3px solid var(--gold);padding:2.2rem 2rem 2rem;box-shadow:0 2px 16px rgba(26,34,50,.05);transition:box-shadow .3s,transform .3s}
+        .mqcard:hover{box-shadow:0 8px 32px rgba(26,34,50,.1);transform:translateY(-3px)}
+        .mq-num{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);opacity:.35;line-height:1;margin-bottom:1.1rem;font-weight:400;transition:opacity .3s}
+        .mqcard:hover .mq-num{opacity:.7}
+        .mqcard h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--navy);line-height:1.3;margin-bottom:.75rem}
+        .mqcard p{font-size:.88rem;color:var(--muted);line-height:1.8}
+
+        /* segunda faixa — direção inversa */
+        .marquee-track.reverse{animation-direction:reverse}
+
+        .marquee-sep{height:1.5rem}
+
+        footer{background:var(--dark);padding:5rem 5vw 2rem}
+        .footer-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:6rem;padding-bottom:3rem;margin-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.06)}
+        .footer-logo img{height:34px;opacity:.85;display:block;margin-bottom:1.5rem}
+        .footer-desc{color:rgba(240,236,230,.45);font-size:.9rem;line-height:1.8;max-width:300px}
+        .footer-h{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#f0ece6;margin-bottom:1.5rem}
+        .footer-info{color:rgba(240,236,230,.45);font-size:.88rem;line-height:2.1}
+        .footer-info a{color:var(--gold);text-decoration:none}
+        .footer-copy{max-width:1240px;margin:0 auto;text-align:center;color:rgba(240,236,230,.3);font-size:.75rem}
+
+        @media(max-width:700px){.section-intro{flex-direction:column;align-items:flex-start;gap:1rem}.footer-inner{grid-template-columns:1fr;gap:3rem}.services-section{padding:5rem 0 6rem}}
+    </style>
+</head>
+<body>
+<div class="sticky-bar" id="sticky-bar">
+    <a href="modelo-b-home.html">Início</a>
+    <span class="sticky-sep">◆</span>
+    <a href="modelo-b-servicos.html">Serviços</a>
+    <span class="sticky-sep">◆</span>
+    <a href="#footer">Contato</a>
+</div>
+
+<div class="logo-top">
+    <img src="logo-escuro.png" alt="BS&S Consulting">
+    <div class="logo-top-nav">
+        <a href="modelo-b-home.html">Início</a>
+        <span class="logo-top-sep"></span>
+        <a href="modelo-b-servicos.html">Serviços</a>
+        <span class="logo-top-sep"></span>
+        <a href="#footer">Contato</a>
+    </div>
+</div>
+
+<header class="page-header">
+    <div class="ph-inner">
+        <div class="section-tag">O que fazemos</div>
+        <h1>Serviços de Consultoria<br>em <em>Tecnologia</em></h1>
+        <p>Nosso foco está nos níveis estratégico e tático da tecnologia da informação, gerando valor, qualidade e performance para os negócios.</p>
+    </div>
+</header>
+
+<section class="services-section">
+
+    <div class="section-intro">
+        <h2>Nove áreas de<br><em>atuação especializada</em></h2>
+        <div class="intro-note">Passe o mouse para pausar</div>
+    </div>
+
+    <!-- Faixa 1: esquerda → direita (normal) -->
+    <div class="marquee-outer">
+        <div class="marquee-track">
+            <!-- set A -->
+            <div class="mqcard"><div class="mq-num">01</div><h3>Planejamento Estratégico</h3><p>Estratégia de TI integrada ao negócio, com foco no máximo retorno dos investimentos no curto, médio e longo prazo.</p></div>
+            <div class="mqcard"><div class="mq-num">02</div><h3>Gestão de Projetos Complexos</h3><p>Atuamos (início a fim) como planejadores e gestores, assegurando soluções, prazos, custos e qualidade em todas as fases.</p></div>
+            <div class="mqcard"><div class="mq-num">03</div><h3>Governança</h3><p>Identificamos os níveis de maturidade da organização com base em COBIT, ITIL, CMMI e PMI, com senso prático.</p></div>
+            <div class="mqcard"><div class="mq-num">04</div><h3>Projetos Transformacionais</h3><p>Iniciativas onde inovação e tecnologia viabilizam novos modelos de gestão e elevam a performance do negócio.</p></div>
+            <div class="mqcard"><div class="mq-num">05</div><h3>Consolidações e Integrações</h3><p>Padronização, simplificação e racionalização de custos em casos de aquisições e cenários distribuídos.</p></div>
+            <div class="mqcard"><div class="mq-num">06</div><h3>Roadmap de Aplicações</h3><p>Mapa de evolução das tecnologias, buscando a melhor relação entre investimentos, riscos, qualidade e performance.</p></div>
+            <div class="mqcard"><div class="mq-num">07</div><h3>Tecnologias Emergentes</h3><p>Apoio na decisão e contratação de Cloud, In-Memory Computing, Big Data, Redes Sociais e Mobile.</p></div>
+            <div class="mqcard"><div class="mq-num">08</div><h3>Controle Orçamentário</h3><p>Organização, estruturação e integração dos processos de planejamento orçamentário para eficácia nas decisões.</p></div>
+            <div class="mqcard"><div class="mq-num">09</div><h3>Análise Técnica de Contratos</h3><p>Suporte desde o RFI/RFP até a assinatura, com balizamento de valores de mercado e análise técnica.</p></div>
+            <!-- set B (cópia para loop infinito) -->
+            <div class="mqcard"><div class="mq-num">01</div><h3>Planejamento Estratégico</h3><p>Estratégia de TI integrada ao negócio, com foco no máximo retorno dos investimentos no curto, médio e longo prazo.</p></div>
+            <div class="mqcard"><div class="mq-num">02</div><h3>Gestão de Projetos Complexos</h3><p>Atuamos (início a fim) como planejadores e gestores, assegurando soluções, prazos, custos e qualidade em todas as fases.</p></div>
+            <div class="mqcard"><div class="mq-num">03</div><h3>Governança</h3><p>Identificamos os níveis de maturidade da organização com base em COBIT, ITIL, CMMI e PMI, com senso prático.</p></div>
+            <div class="mqcard"><div class="mq-num">04</div><h3>Projetos Transformacionais</h3><p>Iniciativas onde inovação e tecnologia viabilizam novos modelos de gestão e elevam a performance do negócio.</p></div>
+            <div class="mqcard"><div class="mq-num">05</div><h3>Consolidações e Integrações</h3><p>Padronização, simplificação e racionalização de custos em casos de aquisições e cenários distribuídos.</p></div>
+            <div class="mqcard"><div class="mq-num">06</div><h3>Roadmap de Aplicações</h3><p>Mapa de evolução das tecnologias, buscando a melhor relação entre investimentos, riscos, qualidade e performance.</p></div>
+            <div class="mqcard"><div class="mq-num">07</div><h3>Tecnologias Emergentes</h3><p>Apoio na decisão e contratação de Cloud, In-Memory Computing, Big Data, Redes Sociais e Mobile.</p></div>
+            <div class="mqcard"><div class="mq-num">08</div><h3>Controle Orçamentário</h3><p>Organização, estruturação e integração dos processos de planejamento orçamentário para eficácia nas decisões.</p></div>
+            <div class="mqcard"><div class="mq-num">09</div><h3>Análise Técnica de Contratos</h3><p>Suporte desde o RFI/RFP até a assinatura, com balizamento de valores de mercado e análise técnica.</p></div>
+        </div>
+    </div>
+
+    <div class="marquee-sep"></div>
+
+    <!-- Faixa 2: direita → esquerda (reversa), offset inicial para efeito premium -->
+    <div class="marquee-outer">
+        <div class="marquee-track reverse" style="animation-duration:68s;animation-delay:-20s">
+            <!-- set A -->
+            <div class="mqcard"><div class="mq-num">09</div><h3>Análise Técnica de Contratos</h3><p>Suporte desde o RFI/RFP até a assinatura, com balizamento de valores de mercado e análise técnica.</p></div>
+            <div class="mqcard"><div class="mq-num">08</div><h3>Controle Orçamentário</h3><p>Organização, estruturação e integração dos processos de planejamento orçamentário para eficácia nas decisões.</p></div>
+            <div class="mqcard"><div class="mq-num">07</div><h3>Tecnologias Emergentes</h3><p>Apoio na decisão e contratação de Cloud, In-Memory Computing, Big Data, Redes Sociais e Mobile.</p></div>
+            <div class="mqcard"><div class="mq-num">06</div><h3>Roadmap de Aplicações</h3><p>Mapa de evolução das tecnologias, buscando a melhor relação entre investimentos, riscos, qualidade e performance.</p></div>
+            <div class="mqcard"><div class="mq-num">05</div><h3>Consolidações e Integrações</h3><p>Padronização, simplificação e racionalização de custos em casos de aquisições e cenários distribuídos.</p></div>
+            <div class="mqcard"><div class="mq-num">04</div><h3>Projetos Transformacionais</h3><p>Iniciativas onde inovação e tecnologia viabilizam novos modelos de gestão e elevam a performance do negócio.</p></div>
+            <div class="mqcard"><div class="mq-num">03</div><h3>Governança</h3><p>Identificamos os níveis de maturidade da organização com base em COBIT, ITIL, CMMI e PMI, com senso prático.</p></div>
+            <div class="mqcard"><div class="mq-num">02</div><h3>Gestão de Projetos Complexos</h3><p>Atuamos (início a fim) como planejadores e gestores, assegurando soluções, prazos, custos e qualidade em todas as fases.</p></div>
+            <div class="mqcard"><div class="mq-num">01</div><h3>Planejamento Estratégico</h3><p>Estratégia de TI integrada ao negócio, com foco no máximo retorno dos investimentos no curto, médio e longo prazo.</p></div>
+            <!-- set B -->
+            <div class="mqcard"><div class="mq-num">09</div><h3>Análise Técnica de Contratos</h3><p>Suporte desde o RFI/RFP até a assinatura, com balizamento de valores de mercado e análise técnica.</p></div>
+            <div class="mqcard"><div class="mq-num">08</div><h3>Controle Orçamentário</h3><p>Organização, estruturação e integração dos processos de planejamento orçamentário para eficácia nas decisões.</p></div>
+            <div class="mqcard"><div class="mq-num">07</div><h3>Tecnologias Emergentes</h3><p>Apoio na decisão e contratação de Cloud, In-Memory Computing, Big Data, Redes Sociais e Mobile.</p></div>
+            <div class="mqcard"><div class="mq-num">06</div><h3>Roadmap de Aplicações</h3><p>Mapa de evolução das tecnologias, buscando a melhor relação entre investimentos, riscos, qualidade e performance.</p></div>
+            <div class="mqcard"><div class="mq-num">05</div><h3>Consolidações e Integrações</h3><p>Padronização, simplificação e racionalização de custos em casos de aquisições e cenários distribuídos.</p></div>
+            <div class="mqcard"><div class="mq-num">04</div><h3>Projetos Transformacionais</h3><p>Iniciativas onde inovação e tecnologia viabilizam novos modelos de gestão e elevam a performance do negócio.</p></div>
+            <div class="mqcard"><div class="mq-num">03</div><h3>Governança</h3><p>Identificamos os níveis de maturidade da organização com base em COBIT, ITIL, CMMI e PMI, com senso prático.</p></div>
+            <div class="mqcard"><div class="mq-num">02</div><h3>Gestão de Projetos Complexos</h3><p>Atuamos (início a fim) como planejadores e gestores, assegurando soluções, prazos, custos e qualidade em todas as fases.</p></div>
+            <div class="mqcard"><div class="mq-num">01</div><h3>Planejamento Estratégico</h3><p>Estratégia de TI integrada ao negócio, com foco no máximo retorno dos investimentos no curto, médio e longo prazo.</p></div>
+        </div>
+    </div>
+
+</section>
+
+<footer id="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-logo"><img src="logo-claro.png" alt="BS&S Consulting"></div>
+            <p class="footer-desc">Consultoria em tecnologia com foco nos níveis estratégico e tático da TI, gerando valor e performance para os negócios.</p>
+        </div>
+        <div>
+            <div class="footer-h">Entre em Contato</div>
+            <div class="footer-info">Rua Álvaro Rodrigues, 182 Conj. 155<br>Brooklin – São Paulo – SP – Brasil<br>+55 11 3705-1658<br><a href="mailto:secretaria@bssconsulting.com.br">secretaria@bssconsulting.com.br</a></div>
+        </div>
+    </div>
+    <div class="footer-copy">© 2025 BS&S Consulting. Todos os direitos reservados.</div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+    document.getElementById('sticky-bar').classList.toggle('vis', scrollY > 200);
+}, {passive: true});
+</script>
+</body>
+</html>

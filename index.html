@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS&S Consulting — Seleção de Layout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:#f8fafc;color:#0f172a;min-height:100vh}
+
+        /* HEADER */
+        .header{background:#fff;border-bottom:1px solid #e2e8f0;padding:2.5rem 5vw;text-align:center}
+        .header img{height:48px;display:block;margin:0 auto 1.5rem}
+        .header h1{font-size:1.5rem;font-weight:700;color:#0f172a;margin-bottom:.5rem}
+        .header p{font-size:.95rem;color:#64748b;line-height:1.7;max-width:520px;margin:0 auto}
+
+        /* MAIN */
+        .main{max-width:1200px;margin:0 auto;padding:4rem 5vw 6rem}
+
+        .section-label{
+            font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+            color:#94a3b8;margin-bottom:2.5rem;
+            display:flex;align-items:center;gap:1rem;
+        }
+        .section-label::after{content:'';flex:1;height:1px;background:#e2e8f0}
+
+        /* CARDS GRID */
+        .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+
+        .card{background:#fff;border:1px solid #e2e8f0;border-radius:4px;overflow:hidden;transition:box-shadow .3s,transform .3s}
+        .card:hover{box-shadow:0 12px 40px rgba(0,0,0,.1);transform:translateY(-3px)}
+
+        /* preview thumbnail */
+        .card-preview{
+            height:200px;position:relative;overflow:hidden;
+            display:flex;align-items:center;justify-content:center;
+        }
+        .card-preview-a{background:linear-gradient(135deg,#07101f 0%,#1e3a8a 60%,#2563eb 100%)}
+        .card-preview-b{background:linear-gradient(135deg,#1a1408 0%,#2d1f0a 50%,#3d2b10 100%)}
+        .card-preview-c{background:linear-gradient(135deg,#0a1f1f 0%,#0c2e2e 50%,#123838 100%)}
+
+        .card-preview img{height:36px;opacity:.85;filter:brightness(0) invert(1);position:relative;z-index:1}
+
+        /* decorative circles */
+        .card-preview::before{
+            content:'';position:absolute;right:-40px;top:-40px;
+            width:200px;height:200px;border-radius:50%;
+            border:1px solid rgba(255,255,255,.07);
+        }
+        .card-preview::after{
+            content:'';position:absolute;right:20px;bottom:-60px;
+            width:140px;height:140px;border-radius:50%;
+            border:1px solid rgba(255,255,255,.05);
+        }
+
+        /* accent line */
+        .card-preview-a .accent{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2563eb,#60a5fa)}
+        .card-preview-b .accent{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#c9a96e,#e8d5a3)}
+        .card-preview-c .accent{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#34d399,#6ee7b7)}
+
+        /* pill badge */
+        .card-badge{
+            position:absolute;top:1rem;left:1rem;
+            font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+            padding:.3rem .75rem;border-radius:2px;
+        }
+        .badge-a{background:rgba(37,99,235,.2);color:#93c5fd;border:1px solid rgba(37,99,235,.3)}
+        .badge-b{background:rgba(201,169,110,.15);color:#e8d5a3;border:1px solid rgba(201,169,110,.25)}
+        .badge-c{background:rgba(52,211,153,.15);color:#6ee7b7;border:1px solid rgba(52,211,153,.25)}
+
+        /* card body */
+        .card-body{padding:1.75rem 1.5rem}
+        .card-title{font-size:1.05rem;font-weight:700;color:#0f172a;margin-bottom:.4rem}
+        .card-desc{font-size:.85rem;color:#64748b;line-height:1.7;margin-bottom:1.5rem}
+
+        .card-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.75rem}
+        .tag{font-size:.65rem;font-weight:600;letter-spacing:.5px;padding:.25rem .65rem;background:#f1f5f9;color:#475569;border-radius:2px}
+
+        /* buttons */
+        .card-btns{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+        .btn{
+            display:block;text-align:center;text-decoration:none;
+            font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+            padding:.7rem 1rem;border-radius:2px;transition:all .25s;
+        }
+        .btn-ghost{border:1px solid #e2e8f0;color:#64748b}
+        .btn-ghost:hover{border-color:#94a3b8;color:#0f172a;background:#f8fafc}
+        .btn-primary-a{background:#2563eb;color:#fff}
+        .btn-primary-a:hover{background:#1d4ed8}
+        .btn-primary-b{background:#c9a96e;color:#1a1408}
+        .btn-primary-b:hover{background:#b8965a}
+        .btn-primary-c{background:#34d399;color:#0a1f1f}
+        .btn-primary-c:hover{background:#10b981}
+
+        /* NOTE */
+        .note{margin-top:3.5rem;padding:1.5rem 2rem;background:#fff;border:1px solid #e2e8f0;border-left:3px solid #2563eb;border-radius:2px}
+        .note p{font-size:.88rem;color:#64748b;line-height:1.75}
+        .note strong{color:#0f172a}
+
+        /* FOOTER */
+        .footer{background:#fff;border-top:1px solid #e2e8f0;padding:1.5rem 5vw;text-align:center}
+        .footer p{font-size:.78rem;color:#94a3b8}
+
+        @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
+        @media(max-width:600px){
+            .grid{grid-template-columns:1fr}
+            .card-btns{grid-template-columns:1fr}
+            .main{padding:3rem 1.5rem 5rem}
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <img src="logo-escuro.png" alt="BS&S Consulting">
+    <h1>Proposta de Layout — Novo Site</h1>
+    <p>Apresentamos três propostas visuais distintas para o novo site da BS&S Consulting. Navegue por cada opção e escolha a que melhor representa a identidade da empresa.</p>
+</header>
+
+<main class="main">
+
+    <div class="section-label">Propostas de Layout</div>
+
+    <div class="grid">
+
+        <!-- MODELO A -->
+        <div class="card">
+            <div class="card-preview card-preview-a">
+                <span class="card-badge badge-a">Opção A</span>
+                <img src="logo-claro.png" alt="BS&S">
+                <div class="accent"></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Institucional Clássico</div>
+                <div class="card-desc">Identidade sóbria e confiável em azul navy escuro. Tipografia elegante com serifa, transmite autoridade e tradição corporativa.</div>
+                <div class="card-tags">
+                    <span class="tag">Azul Navy</span>
+                    <span class="tag">Playfair Display</span>
+                    <span class="tag">Grid limpo</span>
+                </div>
+                <div class="card-btns">
+                    <a href="modelo-a-servicos.html" class="btn btn-ghost">Ver Serviços</a>
+                    <a href="modelo-a-home.html" class="btn btn-primary-a">Ver Home →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODELO B -->
+        <div class="card">
+            <div class="card-preview card-preview-b">
+                <span class="card-badge badge-b">Opção B</span>
+                <img src="logo-claro.png" alt="BS&S">
+                <div class="accent"></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Editorial Premium</div>
+                <div class="card-desc">Paleta bege e dourado com navy profundo. Estética de consultoria de alto padrão, com animação contínua nos serviços.</div>
+                <div class="card-tags">
+                    <span class="tag">Bege & Dourado</span>
+                    <span class="tag">Cormorant Garamond</span>
+                    <span class="tag">Marquee animado</span>
+                </div>
+                <div class="card-btns">
+                    <a href="modelo-b-servicos.html" class="btn btn-ghost">Ver Serviços</a>
+                    <a href="modelo-b-home.html" class="btn btn-primary-b">Ver Home →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODELO C -->
+        <div class="card">
+            <div class="card-preview card-preview-c">
+                <span class="card-badge badge-c">Opção C</span>
+                <img src="logo-claro.png" alt="BS&S">
+                <div class="accent"></div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">Moderno & Tecnológico</div>
+                <div class="card-desc">Verde teal escuro com detalhes em mint. Banner com fotos reais, menu centralizado e apresentação dos serviços em acordeão.</div>
+                <div class="card-tags">
+                    <span class="tag">Teal & Mint</span>
+                    <span class="tag">DM Sans</span>
+                    <span class="tag">Carrossel Unsplash</span>
+                </div>
+                <div class="card-btns">
+                    <a href="modelo-c-servicos.html" class="btn btn-ghost">Ver Serviços</a>
+                    <a href="modelo-c-home.html" class="btn btn-primary-c">Ver Home →</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="note">
+        <p><strong>Como navegar:</strong> Cada opção possui duas páginas — Home e Serviços. Use os botões acima para explorar. Ao escolher a proposta preferida, o site completo será desenvolvido com base nesse layout, incluindo todas as páginas definidas (Sobre, Contato e Cases).</p>
+    </div>
+
+</main>
+
+<footer class="footer">
+    <p>© 2025 BS&S Consulting — Proposta de redesign desenvolvida exclusivamente para apresentação interna.</p>
+</footer>
+
+</body>
+</html>

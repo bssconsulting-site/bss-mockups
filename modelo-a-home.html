@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BS&S Consulting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:   #07101f;
+            --bg2:  #0c1628;
+            --gold: #c9a84c;
+            --g2:   #e2c87a;
+            --wh:   #f0ede8;
+            --mu:   #7a8ca0;
+            --card: #0f1f38;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--wh);overflow-x:hidden}
+
+        /* ── UTILITY NAV (topo, aparece ao rolar) ──────── */
+        .util-nav {
+            position:fixed;inset:0 0 auto 0;z-index:600;
+            padding:.9rem 5vw;
+            display:flex;align-items:center;justify-content:space-between;
+            transition:all .4s;
+            pointer-events:none;opacity:0;
+        }
+        .util-nav.visible {
+            pointer-events:auto;opacity:1;
+            background:rgba(7,16,31,.97);
+            backdrop-filter:blur(20px);
+            border-bottom:1px solid rgba(201,168,76,.15);
+        }
+        .util-logo img{height:28px;display:block}
+        .util-nav ul{list-style:none;display:flex;gap:2.5rem}
+        .util-nav a{
+            color:rgba(240,237,232,.65);text-decoration:none;
+            font-size:1rem;font-weight:500;letter-spacing:.3px;
+            transition:color .25s;
+        }
+        .util-nav a:hover{color:var(--gold)}
+
+        /* ── HERO ──────────────────────────────────────── */
+        .hero{
+            position:relative;height:100svh;min-height:640px;overflow:hidden;
+        }
+        @keyframes kbz{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-1.2%,-.6%)}}
+        .hero-bg{
+            position:absolute;inset:0;z-index:0;
+            background:
+                url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80')
+                center/cover no-repeat,
+                linear-gradient(135deg,#0d1f3c,#07101f);
+            animation:kbz 20s ease-in-out infinite alternate;
+        }
+        .hero-ov{
+            position:absolute;inset:0;z-index:1;
+            background:linear-gradient(160deg,rgba(7,16,31,.85) 0%,rgba(7,16,31,.62) 50%,rgba(7,16,31,.80) 100%);
+        }
+        .hero-ov::after{
+            content:'';position:absolute;bottom:0;left:0;right:0;height:35%;
+            background:linear-gradient(to top,rgba(201,168,76,.05),transparent);
+        }
+        .hero-body{
+            position:absolute;inset:0;z-index:2;
+            display:flex;flex-direction:column;
+            align-items:center;justify-content:center;
+            padding:3rem 5vw 7rem;
+            text-align:center;
+        }
+
+        /* LOGO GRANDE — logo-claro.png para fundo escuro */
+        .hero-logo{margin-bottom:2rem}
+        .hero-logo img{
+            height:130px;max-width:400px;width:100%;
+            object-fit:contain;display:block;margin:0 auto;
+        }
+
+        /* NAV LINKS ABAIXO DO LOGO */
+        .hero-nav{
+            display:flex;align-items:center;gap:2rem;
+            margin-bottom:3rem;
+            padding:.6rem 2rem;
+            border-top:1px solid rgba(201,168,76,.2);
+            border-bottom:1px solid rgba(201,168,76,.2);
+        }
+        .hero-nav a{
+            color:rgba(240,237,232,.65);text-decoration:none;
+            font-size:1rem;font-weight:500;letter-spacing:1px;
+            text-transform:uppercase;transition:color .25s;
+        }
+        .hero-nav a:hover{color:var(--gold)}
+        .hero-nav-sep{width:4px;height:4px;border-radius:50%;background:rgba(201,168,76,.4)}
+
+        /* CAROUSEL */
+        .carousel{position:relative;width:100%;max-width:860px}
+        .slide{
+            position:absolute;inset:0;
+            opacity:0;transform:translateY(18px);
+            transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.2,1);
+            pointer-events:none;
+        }
+        .slide.active{opacity:1;transform:translateY(0);pointer-events:auto;position:relative;inset:auto}
+        .slide.gone{position:absolute}
+        .slide-tag{
+            font-size:.72rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+            color:var(--gold);margin-bottom:1.2rem;
+            display:flex;align-items:center;justify-content:center;gap:.8rem;
+        }
+        .slide-tag::before,.slide-tag::after{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+        .slide h1{
+            font-family:'Playfair Display',serif;
+            font-size:clamp(2.5rem,5vw,5rem);
+            font-weight:600;line-height:1.12;margin-bottom:1.2rem;
+        }
+        .slide h1 em{font-style:italic;color:var(--g2)}
+        .slide p{font-size:1.05rem;line-height:1.85;color:var(--mu);max-width:520px;margin:0 auto}
+
+        /* CONTROLS */
+        .hero-ctrl{
+            position:absolute;bottom:0;left:0;right:0;z-index:3;
+            padding:1.8rem 5vw;display:flex;align-items:center;gap:2rem;
+        }
+        .ctrl-lbl{font-size:.7rem;font-weight:700;letter-spacing:2px;color:var(--mu);white-space:nowrap}
+        .prg-track{flex:1;height:1px;background:rgba(240,237,232,.1);position:relative;overflow:hidden}
+        .prg-fill{position:absolute;left:0;top:0;height:100%;width:0%;background:var(--gold);transition:none}
+        .dots{display:flex;gap:.65rem}
+        .dot{width:7px;height:7px;border-radius:50%;border:none;cursor:pointer;background:rgba(255,255,255,.18);transition:all .3s}
+        .dot.on{background:var(--gold);transform:scale(1.5)}
+
+        /* ── IMAGE STRIP ─────────────────────────────── */
+        .img-strip{
+            position:relative;height:55vh;min-height:400px;overflow:hidden;
+        }
+        .img-strip-bg{
+            position:absolute;inset:0;
+            background:
+                url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1920&q=80')
+                center/cover no-repeat,
+                linear-gradient(135deg,#1a3a5c,#0c2a40);
+        }
+        .img-strip-ov{
+            position:absolute;inset:0;
+            background:linear-gradient(90deg,rgba(7,16,31,.88) 0%,rgba(7,16,31,.5) 50%,rgba(7,16,31,.3) 100%);
+        }
+        .img-strip-txt{
+            position:absolute;inset:0;z-index:2;
+            display:flex;flex-direction:column;justify-content:center;
+            padding:0 5vw;max-width:700px;
+        }
+        .strip-tag{font-size:.7rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+        .img-strip-txt h2{
+            font-family:'Playfair Display',serif;
+            font-size:clamp(1.8rem,4vw,3.5rem);font-weight:400;line-height:1.25;
+        }
+        .img-strip-txt h2 em{font-style:italic;color:var(--g2)}
+        .img-strip-txt p{margin-top:1.25rem;color:var(--mu);font-size:1rem;line-height:1.8;max-width:520px}
+
+        /* ── INTRO ───────────────────────────────────── */
+        .intro{background:var(--bg2);padding:9rem 5vw}
+        .intro-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:9rem;align-items:center}
+        .sec-tag{font-size:.7rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:1.75rem}
+        .intro h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3.2rem);font-weight:400;line-height:1.3;margin-bottom:1.5rem}
+        .intro h2 strong{color:var(--g2);font-weight:700}
+        .intro p{color:var(--mu);font-size:1rem;line-height:1.9;margin-bottom:2.5rem}
+        .btn{display:inline-block;padding:.9rem 2.5rem;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
+        .btn:hover{background:var(--gold);color:var(--bg)}
+        .stats{
+            display:grid;grid-template-columns:1fr 1fr;
+            border:1px solid rgba(201,168,76,.15);
+            box-shadow:0 0 0 4px rgba(201,168,76,.04);
+        }
+        .stat{padding:2.5rem 2rem;border:1px solid rgba(201,168,76,.08);margin:-1px 0 0 -1px}
+        .stat-n{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--gold);line-height:1;margin-bottom:.4rem}
+        .stat-l{font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--mu)}
+
+        /* ── TICKER ─────────────────────────────────── */
+        .ticker{overflow:hidden;background:rgba(201,168,76,.05);border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);padding:.85rem 0}
+        .ticker-track{display:flex;width:max-content;animation:tick-run 42s linear infinite}
+        .ticker-track:hover{animation-play-state:paused}
+        .ticker-item{padding:0 2.2rem;font-size:.65rem;font-weight:700;letter-spacing:3.5px;text-transform:uppercase;color:rgba(201,168,76,.6);white-space:nowrap}
+        .ticker-sep{color:rgba(201,168,76,.25);font-size:.7rem;align-self:center}
+        @keyframes tick-run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+        /* ── HIGHLIGHTS CAROUSEL (mini) ──────────────── */
+        .highlights{background:var(--bg);padding:7rem 5vw;border-top:1px solid rgba(201,168,76,.08)}
+        .hl-inner{max-width:1240px;margin:0 auto}
+        .hl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:3rem}
+        .hl-head h2{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,2.5vw,2rem);font-weight:400}
+        .hl-head h2 em{font-style:italic;color:var(--g2)}
+        .hl-ctrl-row{display:flex;align-items:center;gap:1rem}
+        .hl-dots{display:flex;gap:.5rem}
+        .hl-dot-btn{width:6px;height:6px;border-radius:50%;border:none;cursor:pointer;background:rgba(201,168,76,.2);transition:all .3s;padding:0}
+        .hl-dot-btn.hl-on{background:var(--gold);transform:scale(1.5)}
+        .hl-arrows{display:flex;gap:.75rem}
+        .hl-arr{
+            width:44px;height:44px;border:1px solid rgba(201,168,76,.25);background:transparent;
+            color:var(--gold);cursor:pointer;font-size:1.1rem;
+            display:flex;align-items:center;justify-content:center;
+            transition:all .3s;
+        }
+        .hl-arr:hover{background:var(--gold);color:var(--bg)}
+        .hl-track{position:relative;min-height:300px;overflow:hidden}
+        .hl-slide{
+            position:absolute;inset:0;
+            display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;
+            background:rgba(201,168,76,.1);
+            border:1px solid rgba(201,168,76,.2);
+            box-shadow:0 0 0 5px rgba(201,168,76,.04),inset 0 0 0 1px rgba(201,168,76,.04);
+            opacity:0;transform:translateX(28px);
+            transition:opacity .55s ease,transform .55s cubic-bezier(.4,0,.2,1);
+            pointer-events:none;
+        }
+        .hl-slide.hl-on{
+            opacity:1;transform:translateX(0);
+            position:relative;inset:auto;
+            pointer-events:auto;
+        }
+        .hl-card{
+            background:var(--bg);padding:2.5rem;
+            transition:background .3s;position:relative;overflow:hidden;
+        }
+        .hl-card::after{
+            content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+            background:linear-gradient(90deg,var(--gold),transparent);
+            transform:scaleX(0);transform-origin:left;
+            transition:transform .4s cubic-bezier(.4,0,.2,1);
+        }
+        .hl-card:hover{background:var(--card)}
+        .hl-card:hover::after{transform:scaleX(1)}
+        .hl-n{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);opacity:.35;margin-bottom:1.25rem;transition:opacity .3s}
+        .hl-card:hover .hl-n{opacity:1}
+        .hl-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;color:var(--wh);line-height:1.35;margin-bottom:.75rem}
+        .hl-card p{font-size:.88rem;color:var(--mu);line-height:1.8}
+
+        /* scroll-reveal */
+        .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+        .reveal.in{opacity:1;transform:translateY(0)}
+        .reveal[data-d="1"]{transition-delay:.12s}
+        .reveal[data-d="2"]{transition-delay:.24s}
+        .reveal[data-d="3"]{transition-delay:.36s}
+
+        /* ── FOOTER ──────────────────────────────────── */
+        footer{background:#040b17;border-top:1px solid rgba(201,168,76,.08);padding:5rem 5vw 2rem}
+        .ft-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:6rem;padding-bottom:3rem;margin-bottom:2rem;border-bottom:1px solid rgba(240,237,232,.05)}
+        .ft-logo img{height:34px;display:block;margin-bottom:1.5rem}
+        .ft-desc{color:var(--mu);font-size:.9rem;line-height:1.8;max-width:300px}
+        .ft-h{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--wh);margin-bottom:1.5rem}
+        .ft-info{color:var(--mu);font-size:.88rem;line-height:2.1}
+        .ft-info a{color:var(--gold);text-decoration:none}
+        .ft-copy{max-width:1240px;margin:0 auto;text-align:center;color:var(--mu);font-size:.75rem}
+
+        @media(max-width:900px){
+            .intro-inner{grid-template-columns:1fr;gap:4rem}
+            .ft-inner{grid-template-columns:1fr;gap:3rem}
+            .hl-slide{grid-template-columns:1fr}
+        }
+        @media(max-width:600px){
+            .hero-body{padding:2.5rem 1.5rem 6rem}
+            .hero-logo img{height:90px}
+            .hero-nav{gap:1.2rem;padding:.5rem 1rem}
+            .hero-nav a{font-size:.85rem}
+            .hero-ctrl{padding:1.5rem}
+            .intro{padding:5rem 1.5rem}
+            .highlights{padding:5rem 1.5rem}
+            footer{padding:4rem 1.5rem 2rem}
+            .stats{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body>
+
+<!-- UTILITY NAV (aparece ao rolar) -->
+<nav class="util-nav" id="util-nav">
+    <div class="util-logo"><img src="logo-claro.png" alt="BS&S Consulting"></div>
+    <ul>
+        <li><a href="modelo-a-home.html">Início</a></li>
+        <li><a href="modelo-a-servicos.html">Serviços</a></li>
+        <li><a href="#footer">Contato</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-ov"></div>
+    <div class="hero-body">
+
+        <!-- LOGO CLARO GRANDE CENTRALIZADO -->
+        <div class="hero-logo">
+            <img src="logo-claro.png" alt="BS&S Consulting">
+        </div>
+
+        <!-- MENU ABAIXO DO LOGO (dentro do banner) -->
+        <nav class="hero-nav">
+            <a href="modelo-a-home.html">Início</a>
+            <div class="hero-nav-sep"></div>
+            <a href="modelo-a-servicos.html">Serviços</a>
+            <div class="hero-nav-sep"></div>
+            <a href="#footer">Contato</a>
+        </nav>
+
+        <!-- CAROUSEL -->
+        <div class="carousel" id="carousel">
+            <div class="slide active">
+                <div class="slide-tag">Consultoria em Tecnologia</div>
+                <h1>Estratégia que <em>transforma</em><br>negócios</h1>
+                <p>Alinhamos tecnologia e visão estratégica para gerar resultados mensuráveis e sustentáveis.</p>
+            </div>
+            <div class="slide gone">
+                <div class="slide-tag">Gestão de Projetos</div>
+                <h1>Implementação com <em>excelência</em><br>e precisão</h1>
+                <p>Do planejamento à entrega, qualidade e performance em cada fase do projeto.</p>
+            </div>
+            <div class="slide gone">
+                <div class="slide-tag">Impacto Real</div>
+                <h1>Performance que <em>eleva</em><br>seu negócio</h1>
+                <p>Soluções que criam vantagem competitiva no curto, médio e longo prazo.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-ctrl">
+        <span class="ctrl-lbl" id="lbl">01 / 03</span>
+        <div class="prg-track"><div class="prg-fill" id="prg"></div></div>
+        <div class="dots">
+            <button class="dot on"  data-i="0"></button>
+            <button class="dot"     data-i="1"></button>
+            <button class="dot"     data-i="2"></button>
+        </div>
+    </div>
+</section>
+
+<!-- IMAGE STRIP -->
+<div class="img-strip">
+    <div class="img-strip-bg"></div>
+    <div class="img-strip-ov"></div>
+    <div class="img-strip-txt">
+        <div class="strip-tag">Nossa Missão</div>
+        <h2>Conectando <em>tecnologia</em><br>ao crescimento do seu negócio</h2>
+        <p>Desde 2011 ajudando empresas líderes a alinhar TI com estratégia, gerando impacto real e mensurável.</p>
+    </div>
+</div>
+
+<!-- TICKER STRIP -->
+<div class="ticker">
+    <div class="ticker-track">
+        <span class="ticker-item">Planejamento Estratégico</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Governança de TI</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Gestão de Projetos</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Transformação Digital</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Roadmap de Aplicações</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Tecnologias Emergentes</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Controle Orçamentário</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Análise de Contratos</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">COBIT · ITIL · PMI</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Planejamento Estratégico</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Governança de TI</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Gestão de Projetos</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Transformação Digital</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Roadmap de Aplicações</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Tecnologias Emergentes</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Controle Orçamentário</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Análise de Contratos</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">COBIT · ITIL · PMI</span><span class="ticker-sep">◆</span>
+    </div>
+</div>
+
+<!-- INTRO + STATS -->
+<section class="intro">
+    <div class="intro-inner">
+        <div>
+            <div class="sec-tag">Quem Somos</div>
+            <h2 class="reveal">Experiência de <strong>CIOs</strong><br>a serviço do seu crescimento</h2>
+            <p class="reveal" data-d="1">Fundada em 2011, a BS&S é formada por um grupo de CIOs com experiência em telecomunicações, indústria e varejo. Nossa vivência e senso prático na implementação de soluções de TI nos diferencia no mercado.</p>
+            <a href="modelo-a-servicos.html" class="btn reveal" data-d="2">Conheça Nossos Serviços</a>
+        </div>
+        <div class="stats reveal" data-d="1">
+            <div class="stat"><div class="stat-n">15+</div><div class="stat-l">Anos de Atuação</div></div>
+            <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Projetos Entregues</div></div>
+            <div class="stat"><div class="stat-n">9</div><div class="stat-l">Áreas de Expertise</div></div>
+            <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Foco no Resultado</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- HIGHLIGHTS CAROUSEL (serviços em destaque) -->
+<section class="highlights">
+    <div class="hl-inner">
+        <div class="hl-head reveal">
+            <h2>Nossas <em>Principais Soluções</em></h2>
+            <div class="hl-ctrl-row">
+                <div class="hl-dots">
+                    <button class="hl-dot-btn hl-on" data-hl="0"></button>
+                    <button class="hl-dot-btn" data-hl="1"></button>
+                    <button class="hl-dot-btn" data-hl="2"></button>
+                </div>
+                <div class="hl-arrows">
+                    <button class="hl-arr" id="hl-prev">&#8592;</button>
+                    <button class="hl-arr" id="hl-next">&#8594;</button>
+                </div>
+            </div>
+        </div>
+        <div class="hl-track">
+            <div class="hl-slide hl-on" id="hl0">
+                <div class="hl-card"><div class="hl-n">01</div><h3>Planejamento Estratégico</h3><p>Estratégia de TI integrada ao negócio para máximo retorno dos investimentos.</p></div>
+                <div class="hl-card"><div class="hl-n">02</div><h3>Gestão de Projetos</h3><p>Planejadores e gestores do início ao fim, assegurando prazo, custo e qualidade.</p></div>
+                <div class="hl-card"><div class="hl-n">03</div><h3>Governança</h3><p>COBIT, ITIL, CMMI e PMI com senso prático da realidade do cliente.</p></div>
+            </div>
+            <div class="hl-slide" id="hl1">
+                <div class="hl-card"><div class="hl-n">04</div><h3>Projetos Transformacionais</h3><p>Inovação que viabiliza novos modelos de gestão e eleva a performance.</p></div>
+                <div class="hl-card"><div class="hl-n">05</div><h3>Consolidações</h3><p>Padronização e simplificação em cenários de aquisição e distribuição.</p></div>
+                <div class="hl-card"><div class="hl-n">06</div><h3>Roadmap de Aplicações</h3><p>Mapa de evolução tecnológica equilibrando investimentos e performance.</p></div>
+            </div>
+            <div class="hl-slide" id="hl2">
+                <div class="hl-card"><div class="hl-n">07</div><h3>Tecnologias Emergentes</h3><p>Cloud, In-Memory, Big Data, Mobile com decisão estratégica e segura.</p></div>
+                <div class="hl-card"><div class="hl-n">08</div><h3>Controle Orçamentário</h3><p>Planejamento e controle do orçamento para eficácia máxima nas decisões.</p></div>
+                <div class="hl-card"><div class="hl-n">09</div><h3>Análise de Contratos</h3><p>De RFI/RFP à assinatura com balizamento de mercado e análise técnica.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="ft-inner">
+        <div>
+            <div class="ft-logo"><img src="logo-claro.png" alt="BS&S Consulting"></div>
+            <p class="ft-desc">Consultoria em tecnologia com foco nos níveis estratégico e tático da TI, gerando valor e performance para os negócios.</p>
+        </div>
+        <div>
+            <div class="ft-h">Entre em Contato</div>
+            <div class="ft-info">
+                Rua Álvaro Rodrigues, 182 Conj. 155<br>
+                Brooklin – São Paulo – SP – Brasil<br>
+                +55 11 3705-1658<br>
+                <a href="mailto:secretaria@bssconsulting.com.br">secretaria@bssconsulting.com.br</a>
+            </div>
+        </div>
+    </div>
+    <div class="ft-copy">© 2025 BS&S Consulting. Todos os direitos reservados.</div>
+</footer>
+
+<script>
+(() => {
+    /* ── Hero Carousel ─────────────────────────── */
+    const slides=[...document.querySelectorAll('.slide')];
+    const dots=[...document.querySelectorAll('.dot')];
+    const lbl=document.getElementById('lbl');
+    const prg=document.getElementById('prg');
+    const DUR=6500;
+    let cur=0,t0=performance.now();
+
+    function go(n){
+        slides[cur].classList.remove('active');slides[cur].classList.add('gone');
+        dots[cur].classList.remove('on');
+        cur=((n%slides.length)+slides.length)%slides.length;
+        slides[cur].classList.remove('gone');slides[cur].classList.add('active');
+        dots[cur].classList.add('on');
+        lbl.textContent=String(cur+1).padStart(2,'0')+' / 0'+slides.length;
+        t0=performance.now();
+    }
+    function tick(ts){
+        const p=Math.min((ts-t0)/DUR*100,100);
+        prg.style.width=p+'%';
+        if(p>=100)go(cur+1);
+        requestAnimationFrame(tick);
+    }
+    dots.forEach(d=>d.addEventListener('click',()=>go(+d.dataset.i)));
+
+    /* ── Util Nav ─────────────────────────────── */
+    window.addEventListener('scroll',()=>{
+        document.getElementById('util-nav').classList.toggle('visible',scrollY>120);
+    },{passive:true});
+
+    /* ── Highlights mini-carousel ─────────────── */
+    const hlSlides=[...document.querySelectorAll('.hl-slide')];
+    const hlDots=[...document.querySelectorAll('.hl-dot-btn')];
+    let hlCur=0;
+    function hlGo(n){
+        hlSlides[hlCur].classList.remove('hl-on');
+        hlDots[hlCur].classList.remove('hl-on');
+        hlCur=((n%hlSlides.length)+hlSlides.length)%hlSlides.length;
+        hlSlides[hlCur].classList.add('hl-on');
+        hlDots[hlCur].classList.add('hl-on');
+    }
+    let hlAuto=setInterval(()=>hlGo(hlCur+1),4500);
+    function hlClick(fn){clearInterval(hlAuto);fn();hlAuto=setInterval(()=>hlGo(hlCur+1),4500)}
+    document.getElementById('hl-prev').addEventListener('click',()=>hlClick(()=>hlGo(hlCur-1)));
+    document.getElementById('hl-next').addEventListener('click',()=>hlClick(()=>hlGo(hlCur+1)));
+    hlDots.forEach(d=>d.addEventListener('click',()=>hlClick(()=>hlGo(+d.dataset.hl))));
+
+    /* ── Scroll Reveal ────────────────────────── */
+    const obs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

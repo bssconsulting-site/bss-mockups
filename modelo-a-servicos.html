@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços — BS&S Consulting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg:#eff6ff;
+            --bg2:#dbeafe;
+            --blue:#2563eb;
+            --blue-dk:#1e40af;
+            --blue-xdk:#07101f;
+            --text:#1e293b;
+            --muted:#64748b;
+            --card:#ffffff;
+            --line:rgba(37,99,235,.12);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+        /* ── NAV STICKY ── */
+        .sticky-bar{position:fixed;inset:0 0 auto 0;z-index:600;padding:.85rem 5vw;background:rgba(239,246,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:2.5rem;opacity:0;pointer-events:none;transition:opacity .3s}
+        .sticky-bar.vis{opacity:1;pointer-events:auto}
+        .sticky-bar a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;transition:color .2s}
+        .sticky-bar a:hover{color:var(--blue)}
+        .sticky-sep{color:rgba(37,99,235,.25);font-size:.55rem}
+
+        /* ── LOGO TOPO ── */
+        .logo-top{background:var(--card);padding:3.5rem 5vw 2.5rem;display:flex;flex-direction:column;align-items:center;text-align:center;border-bottom:1px solid var(--line)}
+        .logo-top img{height:100px;max-width:360px;width:100%;object-fit:contain;display:block;margin:0 auto}
+        .logo-top-nav{display:flex;align-items:center;gap:2.2rem;margin-top:1.6rem;padding:.6rem 2.5rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+        .logo-top-nav a{color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;transition:color .2s}
+        .logo-top-nav a:hover{color:var(--blue)}
+        .logo-top-sep{width:4px;height:4px;border-radius:50%;background:rgba(37,99,235,.25)}
+
+        /* ── HEADER ── */
+        .page-header{background:var(--blue-xdk);padding:5rem 5vw 6rem;position:relative;overflow:hidden}
+        .page-header::after{content:'';position:absolute;right:-80px;top:-80px;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+        .page-header::before{content:'';position:absolute;right:60px;bottom:-120px;width:280px;height:280px;border-radius:50%;background:rgba(96,165,250,.07);pointer-events:none}
+        .ph-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1}
+        .section-tag{font-size:.7rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#93c5fd;margin-bottom:1.75rem;display:flex;align-items:center;gap:1rem}
+        .section-tag::before{content:'';display:block;width:36px;height:1px;background:#93c5fd}
+        .page-header h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4.5rem);font-weight:600;line-height:1.12;color:#fff;margin-bottom:1.5rem}
+        .page-header h1 em{font-style:italic;color:#93c5fd}
+        .page-header p{color:rgba(255,255,255,.6);font-size:1.05rem;line-height:1.85;max-width:600px}
+
+        /* ── GRADE DE SERVIÇOS ── */
+        .services-section{padding:6rem 5vw 8rem;background:var(--bg)}
+        .svc-inner{max-width:1240px;margin:0 auto}
+
+        /* título da seção */
+        .svc-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:3.5rem;padding-bottom:2rem;border-bottom:2px solid var(--line)}
+        .svc-section-head h2{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:600;color:var(--blue-dk)}
+        .svc-count{font-size:.8rem;font-weight:600;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+
+        /* grid de cards — 3 colunas, sem corte */
+        .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+
+        .svc-card{background:var(--card);border-radius:2px;border:1px solid var(--line);border-left:3px solid var(--blue);padding:2.5rem 2.25rem;transition:box-shadow .3s,transform .3s,border-left-color .3s;display:flex;flex-direction:column;gap:.75rem}
+        .svc-card:hover{box-shadow:0 8px 32px rgba(37,99,235,.1);transform:translateY(-2px);border-left-color:var(--blue-dk)}
+
+        .card-num{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--bg2);font-weight:600;letter-spacing:1px;background:var(--blue);display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:2px;flex-shrink:0}
+        .svc-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--blue-dk);line-height:1.4}
+        .svc-card p{font-size:.9rem;color:var(--muted);line-height:1.85;flex:1}
+
+        /* ── FOOTER ── */
+        footer{background:#040b17;padding:5rem 5vw 2rem}
+        .footer-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:6rem;padding-bottom:3rem;margin-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.08)}
+        .footer-logo img{height:34px;display:block;margin-bottom:1.5rem;opacity:.85}
+        .footer-desc{color:rgba(255,255,255,.45);font-size:.9rem;line-height:1.8;max-width:300px}
+        .footer-h{font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;margin-bottom:1.5rem}
+        .footer-info{color:rgba(255,255,255,.45);font-size:.88rem;line-height:2.1}
+        .footer-info a{color:#93c5fd;text-decoration:none}
+        .footer-copy{max-width:1240px;margin:0 auto;text-align:center;color:rgba(255,255,255,.25);font-size:.75rem}
+
+        /* ── RESPONSIVO ── */
+        @media(max-width:960px){.svc-grid{grid-template-columns:1fr 1fr}}
+        @media(max-width:620px){
+            .services-section{padding:4rem 1.5rem 6rem}
+            .svc-grid{grid-template-columns:1fr}
+            .footer-inner{grid-template-columns:1fr;gap:3rem}
+            footer{padding:4rem 1.5rem 2rem}
+            .svc-section-head{flex-direction:column;align-items:flex-start;gap:.75rem}
+        }
+    </style>
+</head>
+<body>
+
+<div class="sticky-bar" id="sticky-bar">
+    <a href="modelo-a-home.html">Início</a>
+    <span class="sticky-sep">◆</span>
+    <a href="modelo-a-servicos.html">Serviços</a>
+    <span class="sticky-sep">◆</span>
+    <a href="#footer">Contato</a>
+</div>
+
+<div class="logo-top">
+    <img src="logo-escuro.png" alt="BS&S Consulting">
+    <div class="logo-top-nav">
+        <a href="modelo-a-home.html">Início</a>
+        <span class="logo-top-sep"></span>
+        <a href="modelo-a-servicos.html">Serviços</a>
+        <span class="logo-top-sep"></span>
+        <a href="#footer">Contato</a>
+    </div>
+</div>
+
+<header class="page-header">
+    <div class="ph-inner">
+        <div class="section-tag">O que fazemos</div>
+        <h1>Serviços de Consultoria<br>em <em>Tecnologia</em></h1>
+        <p>Nosso foco está nos níveis estratégico e tático da tecnologia da informação, gerando valor, qualidade e performance para os negócios.</p>
+    </div>
+</header>
+
+<section class="services-section">
+    <div class="svc-inner">
+
+        <div class="svc-section-head">
+            <h2>Nossas Áreas de Atuação</h2>
+            <span class="svc-count">09 serviços</span>
+        </div>
+
+        <div class="svc-grid">
+
+            <div class="svc-card">
+                <div class="card-num">01</div>
+                <h3>Planejamento Estratégico</h3>
+                <p>Desenvolvemos a estratégia de TI integrada ao negócio, com foco no máximo retorno dos investimentos e em vantagem competitiva no curto, médio e longo prazo.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">02</div>
+                <h3>Gestão de Projetos Complexos</h3>
+                <p>Atuamos do início ao fim como planejadores e gestores, assegurando soluções, prazos, custos e qualidade em todas as fases do projeto.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">03</div>
+                <h3>Governança de TI</h3>
+                <p>Baseado em COBIT, ITIL, CMMI e PMI, identificamos os níveis de maturidade da organização com senso prático e foco em resultados concretos.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">04</div>
+                <h3>Projetos Transformacionais</h3>
+                <p>Atuamos em iniciativas onde inovação e tecnologia viabilizam novos modelos de gestão e elevam a performance do negócio.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">05</div>
+                <h3>Consolidações e Integrações</h3>
+                <p>Especialistas em aquisições e cenários distribuídos, onde padronização, simplificação e racionalização de custos são fundamentais.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">06</div>
+                <h3>Roadmap de Aplicações</h3>
+                <p>Mapeamos a evolução das tecnologias buscando a melhor relação entre investimentos, riscos, qualidade e performance de longo prazo.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">07</div>
+                <h3>Tecnologias Emergentes</h3>
+                <p>Apoiamos na decisão e contratação de Cloud, In-Memory Computing, Big Data, Redes Sociais e Mobile com análise criteriosa de viabilidade.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">08</div>
+                <h3>Controle Orçamentário de TI</h3>
+                <p>Estruturamos e integramos os processos de planejamento e controle do orçamento para aumentar a eficácia nas decisões de investimento.</p>
+            </div>
+
+            <div class="svc-card">
+                <div class="card-num">09</div>
+                <h3>Análise Técnica de Contratos</h3>
+                <p>Suportamos desde o RFI/RFP até a assinatura, com balizamento de valores de mercado e análise técnica para reduzir riscos e custos.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-logo"><img src="logo-claro.png" alt="BS&S Consulting"></div>
+            <p class="footer-desc">Consultoria em tecnologia com foco nos níveis estratégico e tático da TI, gerando valor e performance para os negócios.</p>
+        </div>
+        <div>
+            <div class="footer-h">Entre em Contato</div>
+            <div class="footer-info">Rua Álvaro Rodrigues, 182 Conj. 155<br>Brooklin – São Paulo – SP – Brasil<br>+55 11 3705-1658<br><a href="mailto:secretaria@bssconsulting.com.br">secretaria@bssconsulting.com.br</a></div>
+        </div>
+    </div>
+    <div class="footer-copy">© 2025 BS&S Consulting. Todos os direitos reservados.</div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+    document.getElementById('sticky-bar').classList.toggle('vis', scrollY > 200);
+}, {passive: true});
+</script>
+</body>
+</html>

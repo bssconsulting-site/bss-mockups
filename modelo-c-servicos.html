@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços — BS&S Consulting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ── DESIGN TOKENS ── */
+        :root{
+            --dk:#0a1f1f;
+            --teal:#0c2e2e;
+            --teal2:#123838;
+            --mint:#34d399;
+            --mint2:#6ee7b7;
+            --green-dk:#0c7c5a;
+            --bg:#f0f7f4;
+            --white:#ffffff;
+            --text:#0c2e2e;
+            --muted:#557070;
+            --line:rgba(12,46,46,.1);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+        /* ════════════════════════════
+           NAV CENTRALIZADO
+        ════════════════════════════ */
+        .nav{
+            position:fixed;inset:0 0 auto 0;z-index:900;
+            padding:1.1rem 5vw;
+            display:flex;justify-content:center;align-items:center;gap:3.5rem;
+            background:transparent;
+            transition:background .4s,backdrop-filter .4s;
+        }
+        .nav.solid{background:rgba(10,31,31,.97);backdrop-filter:blur(24px);border-bottom:1px solid rgba(52,211,153,.1)}
+        .nav-left,.nav-right{display:flex;align-items:center;gap:2rem}
+        .nav-left a,.nav-right a{
+            color:rgba(255,255,255,.62);
+            text-decoration:none;
+            font-family:'DM Sans',sans-serif;
+            font-size:.78rem;font-weight:500;
+            letter-spacing:2px;text-transform:uppercase;
+            transition:color .2s;
+        }
+        .nav-left a:hover,.nav-right a:hover{color:var(--mint)}
+        .nav-logo{display:flex;justify-content:center}
+        .nav-logo img{height:72px;display:block;opacity:.92;transition:opacity .25s}
+        .nav-logo img:hover{opacity:1}
+        .nav-cta{
+            color:var(--mint)!important;
+            border:1px solid rgba(52,211,153,.3);
+            padding:.4rem 1.1rem;border-radius:2px;
+            transition:background .25s,border-color .25s,color .25s!important;
+        }
+        .nav-cta:hover{background:var(--mint);border-color:var(--mint);color:var(--dk)!important}
+
+        /* ════════════════════════════
+           BANNER CARROSSEL FULLSCREEN
+        ════════════════════════════ */
+        .banner{position:relative;height:100vh;min-height:620px;overflow:hidden}
+        .banner-track{display:flex;height:100%;transition:transform 1s cubic-bezier(.4,0,.2,1)}
+        .banner-slide{min-width:100%;flex-shrink:0;position:relative;display:flex;align-items:center}
+
+        .slide-bg{
+            position:absolute;inset:-8%;z-index:0;
+            background-size:cover;background-position:center;
+            animation:kbzoom 20s ease-in-out infinite alternate;
+        }
+        @keyframes kbzoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+        .banner-slide:nth-child(1) .slide-bg{background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80')}
+        .banner-slide:nth-child(2) .slide-bg{background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80')}
+        .banner-slide:nth-child(3) .slide-bg{background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1920&q=80')}
+
+        .slide-ov{
+            position:absolute;inset:0;z-index:1;
+            background:linear-gradient(135deg,rgba(10,31,31,.85) 0%,rgba(12,46,46,.6) 55%,rgba(10,31,31,.4) 100%);
+        }
+        .slide-content{
+            position:relative;z-index:2;
+            max-width:1240px;width:100%;
+            margin:0 auto;padding:0 5vw;
+        }
+        .slide-tag{
+            font-family:'DM Sans',sans-serif;
+            font-size:.62rem;font-weight:600;letter-spacing:5px;text-transform:uppercase;
+            color:var(--mint);margin-bottom:1.75rem;
+            display:flex;align-items:center;gap:.85rem;
+        }
+        .slide-tag::before{content:'';display:block;width:34px;height:1px;background:var(--mint)}
+        .slide-content h1{
+            font-family:'DM Sans',sans-serif;
+            font-size:clamp(2.8rem,5.5vw,5.5rem);
+            font-weight:700;line-height:1.05;letter-spacing:-2.5px;
+            color:#fff;margin-bottom:1.5rem;
+        }
+        .slide-content h1 em{font-style:italic;font-weight:300;color:var(--mint2)}
+        .slide-content p{
+            font-size:1.05rem;color:rgba(255,255,255,.52);
+            line-height:1.8;max-width:500px;margin-bottom:2.5rem;
+        }
+        .slide-link{
+            display:inline-flex;align-items:center;gap:.7rem;
+            color:rgba(255,255,255,.65);
+            font-family:'DM Sans',sans-serif;
+            font-size:.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+            text-decoration:none;
+            border-bottom:1px solid rgba(255,255,255,.2);
+            padding-bottom:.3rem;
+            transition:color .25s,border-color .25s,gap .25s;
+        }
+        .slide-link:hover{color:var(--mint);border-color:rgba(52,211,153,.4);gap:1rem}
+        .slide-link span{font-size:1rem}
+
+        /* setas */
+        .ban-btn{
+            position:absolute;top:50%;transform:translateY(-50%);z-index:10;
+            width:54px;height:54px;border-radius:50%;
+            background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);
+            color:#fff;font-size:1rem;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;
+            transition:background .25s,border-color .3s;
+        }
+        .ban-btn:hover{background:rgba(52,211,153,.15);border-color:rgba(52,211,153,.4)}
+        .ban-prev{left:3vw}
+        .ban-next{right:3vw}
+
+        /* rodapé do banner */
+        .ban-foot{
+            position:absolute;bottom:2.5rem;left:0;right:0;z-index:10;
+            padding:0 5vw;
+            display:flex;align-items:center;gap:2.5rem;
+        }
+        .ban-counter{
+            font-family:'DM Sans',sans-serif;
+            font-size:.72rem;font-weight:600;letter-spacing:2px;
+            color:rgba(255,255,255,.35);white-space:nowrap;
+        }
+        .ban-counter strong{color:var(--mint);font-size:1.05rem;font-weight:700}
+        .ban-prog{flex:1;height:1px;background:rgba(255,255,255,.1);position:relative;overflow:hidden}
+        .ban-bar{position:absolute;inset:0 100% 0 0;background:var(--mint)}
+        .ban-bar.go{animation:banFill 5s linear forwards}
+        @keyframes banFill{to{right:0}}
+        .ban-dots{display:flex;gap:.65rem}
+        .ban-dot{
+            width:7px;height:7px;border-radius:50%;border:none;cursor:pointer;
+            background:rgba(255,255,255,.22);padding:0;
+            transition:background .3s,transform .3s;
+        }
+        .ban-dot.on{background:var(--mint);transform:scale(1.5)}
+
+        /* scroll hint */
+        .scroll-hint{
+            position:absolute;bottom:2.5rem;right:5vw;z-index:10;
+            display:flex;flex-direction:column;align-items:center;gap:.5rem;
+            color:rgba(255,255,255,.3);
+            font-family:'DM Sans',sans-serif;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;
+        }
+        .scroll-hint::after{
+            content:'';display:block;width:1px;height:40px;
+            background:linear-gradient(to bottom,rgba(52,211,153,.5),transparent);
+            animation:scrollPulse 2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:.8;transform:scaleY(1.2)}}
+
+        /* ════════════════════════════
+           TICKER
+        ════════════════════════════ */
+        .ticker{
+            background:var(--teal);
+            padding:.9rem 0;overflow:hidden;
+            border-top:1px solid rgba(52,211,153,.07);
+            border-bottom:1px solid rgba(52,211,153,.07);
+        }
+        .ticker-track{display:flex;width:max-content;animation:tkRun 48s linear infinite}
+        .ticker-track:hover{animation-play-state:paused}
+        .tk-item{padding:0 2.5rem;font-size:.6rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(52,211,153,.45);white-space:nowrap}
+        .tk-sep{color:rgba(52,211,153,.18);padding:0 .5rem}
+        @keyframes tkRun{to{transform:translateX(-50%)}}
+
+        /* ════════════════════════════
+           INTRO — MISSÃO
+        ════════════════════════════ */
+        .intro{background:var(--teal2);padding:7rem 5vw;position:relative;overflow:hidden}
+        .intro::before{
+            content:'';position:absolute;right:-10vw;top:-8vw;
+            width:45vw;height:45vw;border-radius:50%;
+            border:1px solid rgba(52,211,153,.07);pointer-events:none;
+        }
+        .intro::after{
+            content:'';position:absolute;right:-5vw;top:-2vw;
+            width:30vw;height:30vw;border-radius:50%;
+            border:1px solid rgba(52,211,153,.05);pointer-events:none;
+        }
+        .intro-inner{max-width:1240px;margin:0 auto;position:relative;z-index:1;
+            display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
+        .intro-tag{font-size:.62rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--mint);margin-bottom:1.5rem;opacity:.8}
+        .intro h2{
+            font-family:'DM Sans',sans-serif;
+            font-size:clamp(1.9rem,3.5vw,3rem);
+            font-weight:300;line-height:1.3;color:var(--white);
+            letter-spacing:-.5px;
+        }
+        .intro h2 strong{font-weight:700;color:var(--mint2)}
+        .intro-right p{font-size:1rem;color:rgba(240,247,245,.5);line-height:1.9;margin-bottom:1.75rem}
+        .intro-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+        .stat{border-left:2px solid rgba(52,211,153,.2);padding-left:1rem}
+        .stat-n{font-family:'DM Sans',sans-serif;font-size:2rem;font-weight:700;color:var(--mint2);line-height:1}
+        .stat-l{font-size:.75rem;color:rgba(240,247,245,.4);letter-spacing:1px;margin-top:.3rem}
+
+        /* ════════════════════════════
+           SERVIÇOS — ACCORDION
+        ════════════════════════════ */
+        .services{background:var(--bg);padding:8rem 5vw}
+        .svc-inner{max-width:1240px;margin:0 auto}
+        .svc-head{margin-bottom:5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:3rem;flex-wrap:wrap}
+        .svc-tag-line{font-size:.62rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--green-dk);margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem}
+        .svc-tag-line::before{content:'';display:block;width:28px;height:1px;background:var(--green-dk)}
+        .svc-head h2{
+            font-family:'DM Sans',sans-serif;
+            font-size:clamp(2rem,4vw,3.4rem);
+            font-weight:700;color:var(--teal);
+            line-height:1.1;letter-spacing:-1.5px;
+        }
+        .svc-head h2 em{font-style:italic;font-weight:300;color:var(--green-dk)}
+        .svc-note{font-size:.8rem;color:var(--muted);max-width:280px;line-height:1.7;text-align:right}
+
+        /* lista accordion */
+        .svc-list{border-top:2px solid rgba(12,46,46,.08)}
+
+        .svc-item{border-bottom:1px solid rgba(12,46,46,.07)}
+        .svc-trigger{
+            width:100%;background:none;border:none;cursor:pointer;
+            padding:2rem 0;
+            display:grid;grid-template-columns:72px 1fr 48px;
+            align-items:center;gap:1.5rem;
+            text-align:left;
+            transition:background .2s,padding-left .3s;
+        }
+        .svc-trigger:hover{padding-left:.75rem}
+        .svc-num{
+            font-family:'DM Sans',sans-serif;
+            font-size:1.2rem;font-weight:700;
+            color:var(--mint);opacity:.35;line-height:1;
+            transition:opacity .3s;
+        }
+        .svc-item.open .svc-num,
+        .svc-trigger:hover .svc-num{opacity:1}
+
+        .svc-title-wrap{}
+        .svc-title{
+            font-family:'DM Sans',sans-serif;
+            font-size:1.15rem;font-weight:600;
+            color:var(--teal);line-height:1.3;
+            display:block;transition:color .25s;
+        }
+        .svc-subtitle{
+            font-size:.78rem;color:var(--muted);
+            letter-spacing:.5px;margin-top:.25rem;
+            display:block;opacity:0;transform:translateY(-4px);
+            transition:opacity .3s,transform .3s;
+        }
+        .svc-trigger:hover .svc-title,
+        .svc-item.open .svc-title{color:var(--green-dk)}
+        .svc-item.open .svc-subtitle,
+        .svc-trigger:hover .svc-subtitle{opacity:1;transform:translateY(0)}
+
+        .svc-plus{
+            width:36px;height:36px;border-radius:50%;
+            border:1px solid rgba(12,46,46,.12);
+            display:flex;align-items:center;justify-content:center;
+            color:var(--muted);font-size:1.25rem;line-height:1;
+            transition:background .25s,border-color .25s,color .25s,transform .35s;
+            flex-shrink:0;justify-self:end;
+        }
+        .svc-trigger:hover .svc-plus{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.4);color:var(--green-dk)}
+        .svc-item.open .svc-plus{background:var(--mint);border-color:var(--mint);color:var(--dk);transform:rotate(45deg)}
+
+        /* corpo expandível */
+        .svc-body{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+        .svc-item.open .svc-body{max-height:160px}
+        .svc-body-inner{
+            padding:0 0 2.25rem;
+            padding-left:calc(72px + 1.5rem);
+        }
+        .svc-body-inner p{font-size:.95rem;color:var(--muted);line-height:1.85;max-width:680px}
+
+        /* ════════════════════════════
+           CTA FINAL
+        ════════════════════════════ */
+        .cta-section{background:var(--teal);padding:8rem 5vw;text-align:center;position:relative;overflow:hidden}
+        .cta-section::before{
+            content:'';position:absolute;left:50%;top:50%;
+            transform:translate(-50%,-50%);
+            width:600px;height:600px;border-radius:50%;
+            background:radial-gradient(circle,rgba(52,211,153,.06) 0%,transparent 70%);
+            pointer-events:none;
+        }
+        .cta-inner{position:relative;z-index:1;max-width:680px;margin:0 auto}
+        .cta-tag{font-size:.62rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--mint);margin-bottom:1.5rem;opacity:.7}
+        .cta-inner h2{
+            font-family:'DM Sans',sans-serif;
+            font-size:clamp(2rem,4vw,3.2rem);
+            font-weight:700;color:var(--white);
+            line-height:1.15;letter-spacing:-1px;margin-bottom:1.5rem;
+        }
+        .cta-inner h2 em{font-style:italic;font-weight:300;color:var(--mint2)}
+        .cta-inner p{font-size:1rem;color:rgba(240,247,245,.45);line-height:1.8;margin-bottom:3rem}
+        .cta-btn{
+            display:inline-block;
+            background:var(--mint);color:var(--dk);
+            font-family:'DM Sans',sans-serif;
+            font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+            padding:1.1rem 3rem;
+            text-decoration:none;
+            transition:background .25s,transform .25s;
+        }
+        .cta-btn:hover{background:var(--mint2);transform:translateY(-2px)}
+        .cta-contact{
+            margin-top:2rem;font-size:.88rem;
+            color:rgba(240,247,245,.35);
+        }
+        .cta-contact a{color:rgba(52,211,153,.6);text-decoration:none;transition:color .2s}
+        .cta-contact a:hover{color:var(--mint)}
+
+        /* ════════════════════════════
+           FOOTER
+        ════════════════════════════ */
+        footer{background:var(--dk);border-top:1px solid rgba(52,211,153,.07);padding:5rem 5vw 2.5rem}
+        .footer-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:5rem;padding-bottom:3rem;margin-bottom:2.5rem;border-bottom:1px solid rgba(240,247,245,.05)}
+        .footer-logo img{height:36px;display:block;margin-bottom:1.5rem;opacity:.8}
+        .footer-desc{font-size:.9rem;color:rgba(240,247,245,.35);line-height:1.85;max-width:280px}
+        .footer-h{font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:600;color:rgba(240,247,245,.6);margin-bottom:1.5rem;letter-spacing:.5px}
+        .footer-links{list-style:none;display:flex;flex-direction:column;gap:.85rem}
+        .footer-links a{font-size:.88rem;color:rgba(240,247,245,.3);text-decoration:none;transition:color .2s}
+        .footer-links a:hover{color:var(--mint)}
+        .footer-info{font-size:.88rem;color:rgba(240,247,245,.3);line-height:2.1}
+        .footer-info a{color:rgba(52,211,153,.5);text-decoration:none;transition:color .2s}
+        .footer-info a:hover{color:var(--mint)}
+        .footer-copy{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+        .footer-copy span{font-size:.75rem;color:rgba(240,247,245,.18)}
+        .footer-mint{width:28px;height:2px;background:var(--mint);opacity:.3}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:1024px){
+            .intro-inner{grid-template-columns:1fr;gap:3rem}
+            .footer-inner{grid-template-columns:1fr 1fr;gap:3rem}
+        }
+        @media(max-width:768px){
+            .nav-left,.nav-right{display:none}
+            .nav{justify-content:center}
+            .banner-slide h1{font-size:2.4rem}
+            .svc-trigger{grid-template-columns:48px 1fr 40px;gap:1rem}
+            .svc-body-inner{padding-left:calc(48px + 1rem)}
+            .svc-head{flex-direction:column;align-items:flex-start}
+            .svc-note{text-align:left}
+        }
+        @media(max-width:600px){
+            .intro-stats{grid-template-columns:1fr 1fr}
+            .footer-inner{grid-template-columns:1fr;gap:2.5rem}
+            .footer-copy{flex-direction:column;align-items:flex-start}
+            .ban-prev{left:1rem}
+            .ban-next{right:1rem}
+            .services{padding:5rem 1.5rem}
+            .intro{padding:5rem 1.5rem}
+            footer{padding:4rem 1.5rem 2rem}
+            .cta-section{padding:5rem 1.5rem}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════════════
+     NAV CENTRALIZADO
+════════════════════════════ -->
+<nav class="nav" id="main-nav">
+    <ul class="nav-left">
+        <li><a href="modelo-c-home.html">Início</a></li>
+        <li><a href="modelo-c-servicos.html">Serviços</a></li>
+    </ul>
+    <div class="nav-logo">
+        <img src="logo-claro.png" alt="BS&S Consulting">
+    </div>
+    <ul class="nav-right">
+        <li><a href="#footer" class="nav-cta">Contato</a></li>
+    </ul>
+</nav>
+
+<!-- ════════════════════════════
+     BANNER CARROSSEL
+════════════════════════════ -->
+<section class="banner" id="banner">
+    <div class="banner-track" id="ban-track">
+
+        <div class="banner-slide">
+            <div class="slide-bg"></div>
+            <div class="slide-ov"></div>
+            <div class="slide-content">
+                <div class="slide-tag">Estratégia &amp; Inovação</div>
+                <h1>TI como <em>Vantagem</em><br>Competitiva</h1>
+                <p>Desenvolvemos estratégias que transformam tecnologia em resultado de negócio — do planejamento à execução com excelência.</p>
+                <a href="#services" class="slide-link">Conheça nossos serviços <span>→</span></a>
+            </div>
+        </div>
+
+        <div class="banner-slide">
+            <div class="slide-bg"></div>
+            <div class="slide-ov"></div>
+            <div class="slide-content">
+                <div class="slide-tag">Gestão &amp; Projetos</div>
+                <h1>Complexidade<br><em>Sob Controle</em></h1>
+                <p>Do orçamento à entrega, gerenciamos projetos de alta complexidade com metodologia rigorosa e foco em resultado.</p>
+                <a href="#services" class="slide-link">Nossas metodologias <span>→</span></a>
+            </div>
+        </div>
+
+        <div class="banner-slide">
+            <div class="slide-bg"></div>
+            <div class="slide-ov"></div>
+            <div class="slide-content">
+                <div class="slide-tag">Governança &amp; Compliance</div>
+                <h1>Maturidade que<br><em>Gera Confiança</em></h1>
+                <p>Frameworks internacionais aplicados com senso prático — elevamos governança e reduzimos riscos com consistência.</p>
+                <a href="#services" class="slide-link">Ver todos os serviços <span>→</span></a>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="ban-btn ban-prev" id="ban-prev" aria-label="Anterior">&#8592;</button>
+    <button class="ban-btn ban-next" id="ban-next" aria-label="Próximo">&#8594;</button>
+
+    <div class="ban-foot">
+        <div class="ban-counter"><strong id="ban-cur">01</strong> / 03</div>
+        <div class="ban-prog"><div class="ban-bar" id="ban-bar"></div></div>
+        <div class="ban-dots">
+            <button class="ban-dot on" data-i="0"></button>
+            <button class="ban-dot" data-i="1"></button>
+            <button class="ban-dot" data-i="2"></button>
+        </div>
+    </div>
+
+    <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- ════════════════════════════
+     TICKER
+════════════════════════════ -->
+<div class="ticker">
+    <div class="ticker-track">
+        <span class="tk-item">Planejamento Estratégico</span><span class="tk-sep">·</span>
+        <span class="tk-item">Governança de TI</span><span class="tk-sep">·</span>
+        <span class="tk-item">Gestão de Projetos</span><span class="tk-sep">·</span>
+        <span class="tk-item">Transformação Digital</span><span class="tk-sep">·</span>
+        <span class="tk-item">Roadmap de Aplicações</span><span class="tk-sep">·</span>
+        <span class="tk-item">Tecnologias Emergentes</span><span class="tk-sep">·</span>
+        <span class="tk-item">Controle Orçamentário</span><span class="tk-sep">·</span>
+        <span class="tk-item">Análise de Contratos</span><span class="tk-sep">·</span>
+        <span class="tk-item">COBIT · ITIL · PMI</span><span class="tk-sep">·</span>
+        <span class="tk-item">Planejamento Estratégico</span><span class="tk-sep">·</span>
+        <span class="tk-item">Governança de TI</span><span class="tk-sep">·</span>
+        <span class="tk-item">Gestão de Projetos</span><span class="tk-sep">·</span>
+        <span class="tk-item">Transformação Digital</span><span class="tk-sep">·</span>
+        <span class="tk-item">Roadmap de Aplicações</span><span class="tk-sep">·</span>
+        <span class="tk-item">Tecnologias Emergentes</span><span class="tk-sep">·</span>
+        <span class="tk-item">Controle Orçamentário</span><span class="tk-sep">·</span>
+        <span class="tk-item">Análise de Contratos</span><span class="tk-sep">·</span>
+        <span class="tk-item">COBIT · ITIL · PMI</span><span class="tk-sep">·</span>
+    </div>
+</div>
+
+<!-- ════════════════════════════
+     INTRO / MISSÃO
+════════════════════════════ -->
+<section class="intro" id="intro">
+    <div class="intro-inner">
+        <div>
+            <div class="intro-tag">Quem Somos</div>
+            <h2>Experiência de <strong>CIOs</strong><br>a serviço da sua<br><strong>estratégia</strong></h2>
+        </div>
+        <div class="intro-right">
+            <p>Fundada em 2011, a BS&S é formada por um grupo de CIOs com trajetória em telecomunicações, indústria e varejo. Nossa vivência e senso prático na implementação de soluções de TI nos diferencia no mercado.</p>
+            <div class="intro-stats">
+                <div class="stat"><div class="stat-n">15+</div><div class="stat-l">Anos de Atuação</div></div>
+                <div class="stat"><div class="stat-n">9</div><div class="stat-l">Áreas de Expertise</div></div>
+                <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Projetos Entregues</div></div>
+                <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Foco no Resultado</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════
+     SERVIÇOS — ACCORDION
+════════════════════════════ -->
+<section class="services" id="services">
+    <div class="svc-inner">
+
+        <div class="svc-head">
+            <div>
+                <div class="svc-tag-line">Nossas Especialidades</div>
+                <h2>Nove áreas de<br><em>atuação especializada</em></h2>
+            </div>
+            <p class="svc-note">Clique em cada serviço para conhecer nossa abordagem e metodologia.</p>
+        </div>
+
+        <div class="svc-list">
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">01</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Planejamento Estratégico</span>
+                        <span class="svc-subtitle">Estratégia · Visão · Longo Prazo</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Com objetivo de obter o máximo retorno dos investimentos de TI e utilizá-la como vantagem competitiva no curto, médio e longo prazo, desenvolvemos a estratégia de TI integrada ao negócio.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">02</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Planejamento e Gestão de Projetos Complexos</span>
+                        <span class="svc-subtitle">PMO · Prazos · Qualidade</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Atuamos do início ao fim como planejadores e gestores do projeto, assegurando e otimizando soluções, prazos, custos e qualidade em todas as fases da iniciativa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">03</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Governança de TI</span>
+                        <span class="svc-subtitle">COBIT · ITIL · CMMI · PMI</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Identificamos os níveis de maturidade da organização com base em frameworks reconhecidos como COBIT, ITIL, CMMI e PMI — sempre com senso prático e foco em soluções aplicáveis.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">04</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Projetos Transformacionais</span>
+                        <span class="svc-subtitle">Inovação · Modelos de Gestão · Performance</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Atuamos em iniciativas onde inovação e tecnologia viabilizam novos modelos de gestão, processos e elevam a performance do negócio de forma sustentável.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">05</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Consolidações e Integrações</span>
+                        <span class="svc-subtitle">M&amp;A · Padronização · Redução de Custos</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Especialistas em cenários de aquisições e ambientes distribuídos, onde padronização, simplificação, flexibilidade e racionalização de custos são fatores críticos de sucesso.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">06</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Roadmap de Aplicações</span>
+                        <span class="svc-subtitle">Arquitetura · Evolução · Investimento</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Construímos o mapa total ou parcial da evolução das tecnologias, buscando a melhor relação entre investimentos, riscos, qualidade e performance de longo prazo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">07</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Tecnologias Emergentes</span>
+                        <span class="svc-subtitle">Cloud · Big Data · Mobile · IA</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Apoiamos na decisão da aplicabilidade e na contratação de tecnologias como Cloud, In-Memory Computing, Big Data, Redes Sociais e Mobile com análise criteriosa de viabilidade e ROI.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">08</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Planejamento e Controle Orçamentário</span>
+                        <span class="svc-subtitle">Budget · Forecast · Eficiência</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Ajudamos na organização, estruturação e integração dos processos de planejamento e controle do orçamento de TI para aumentar a eficácia nas decisões de investimento.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="svc-item">
+                <button class="svc-trigger" aria-expanded="false">
+                    <span class="svc-num">09</span>
+                    <span class="svc-title-wrap">
+                        <span class="svc-title">Análise Técnica de Contratos</span>
+                        <span class="svc-subtitle">RFI · RFP · Negociação · Risco</span>
+                    </span>
+                    <span class="svc-plus">+</span>
+                </button>
+                <div class="svc-body">
+                    <div class="svc-body-inner">
+                        <p>Suportamos desde a elaboração de RFI/RFP até a assinatura do contrato, com balizamento de valores de mercado e análise técnica para diminuir riscos e otimizar custos.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════
+     CTA
+════════════════════════════ -->
+<section class="cta-section">
+    <div class="cta-inner">
+        <div class="cta-tag">Vamos Conversar</div>
+        <h2>Pronto para elevar a<br><em>performance</em> do seu negócio?</h2>
+        <p>Nossa equipe de CIOs está disponível para entender seus desafios e propor soluções sob medida.</p>
+        <a href="mailto:secretaria@bssconsulting.com.br" class="cta-btn">Fale com um especialista</a>
+        <p class="cta-contact">Ou ligue: <a href="tel:+551137051658">+55 11 3705-1658</a></p>
+    </div>
+</section>
+
+<!-- ════════════════════════════
+     FOOTER
+════════════════════════════ -->
+<footer id="footer">
+    <div class="footer-inner">
+        <div>
+            <div class="footer-logo"><img src="logo-claro.png" alt="BS&S Consulting"></div>
+            <p class="footer-desc">Consultoria em tecnologia com foco nos níveis estratégico e tático da TI, gerando valor, qualidade e performance para os negócios desde 2011.</p>
+        </div>
+        <div>
+            <div class="footer-h">Navegação</div>
+            <ul class="footer-links">
+                <li><a href="modelo-c-home.html">Início</a></li>
+                <li><a href="modelo-c-servicos.html">Serviços</a></li>
+                <li><a href="#intro">Sobre Nós</a></li>
+                <li><a href="#footer">Contato</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="footer-h">Contato</div>
+            <div class="footer-info">
+                Rua Álvaro Rodrigues, 182<br>
+                Conj. 155 · Brooklin<br>
+                São Paulo – SP – Brasil<br>
+                +55 11 3705-1658<br>
+                <a href="mailto:secretaria@bssconsulting.com.br">secretaria@bssconsulting.com.br</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copy">
+        <span>© 2025 BS&amp;S Consulting. Todos os direitos reservados.</span>
+        <div class="footer-mint"></div>
+    </div>
+</footer>
+
+<script>
+/* ── Banner carrossel ── */
+(function(){
+    const TOTAL = 3;
+    const counters = ['01','02','03'];
+    const track = document.getElementById('ban-track');
+    const bar   = document.getElementById('ban-bar');
+    const cur_el= document.getElementById('ban-cur');
+    const dots  = document.querySelectorAll('.ban-dot');
+    const wrap  = document.getElementById('banner');
+    let cur = 0, paused = false;
+
+    function goTo(n) {
+        cur = ((n % TOTAL) + TOTAL) % TOTAL;
+        track.style.transform = `translateX(-${cur * 100}%)`;
+        cur_el.textContent = counters[cur];
+        dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+        bar.classList.remove('go');
+        void bar.offsetWidth;
+        bar.classList.add('go');
+    }
+
+    wrap.addEventListener('mouseenter', () => paused = true);
+    wrap.addEventListener('mouseleave', () => paused = false);
+    document.getElementById('ban-prev').addEventListener('click', () => goTo(cur - 1));
+    document.getElementById('ban-next').addEventListener('click', () => goTo(cur + 1));
+    dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.i)));
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') goTo(cur - 1);
+        if (e.key === 'ArrowRight') goTo(cur + 1);
+    });
+
+    goTo(0);
+    setInterval(() => { if (!paused) goTo(cur + 1); }, 5000);
+})();
+
+/* ── Nav on scroll ── */
+window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').classList.toggle('solid', scrollY > 60);
+}, {passive: true});
+
+/* ── Accordion serviços ── */
+document.querySelectorAll('.svc-trigger').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const item = btn.closest('.svc-item');
+        const isOpen = item.classList.contains('open');
+
+        // fecha todos
+        document.querySelectorAll('.svc-item.open').forEach(i => {
+            i.classList.remove('open');
+            i.querySelector('.svc-trigger').setAttribute('aria-expanded','false');
+        });
+
+        // abre o clicado (se não estava aberto)
+        if (!isOpen) {
+            item.classList.add('open');
+            btn.setAttribute('aria-expanded','true');
+        }
+    });
+});
+</script>
+</body>
+</html>
