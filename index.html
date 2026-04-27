@@ -105,15 +105,39 @@
         .footer{background:#fff;border-top:1px solid #e2e8f0;padding:1.5rem 5vw;text-align:center}
         .footer p{font-size:.78rem;color:#94a3b8}
 
+        /* DEV BRAND */
+        .dev-brand{
+            position:fixed;top:1.25rem;right:1.5rem;
+            display:flex;flex-direction:column;align-items:flex-end;
+            gap:.25rem;z-index:100;pointer-events:none;
+        }
+        .dev-brand img{
+            height:32px;opacity:.55;
+            mix-blend-mode:multiply;
+            filter:saturate(.8);
+        }
+        .dev-brand span{
+            font-size:.6rem;font-weight:500;letter-spacing:1.5px;
+            text-transform:uppercase;color:#94a3b8;
+            text-align:right;
+        }
+
         @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
         @media(max-width:600px){
             .grid{grid-template-columns:1fr}
             .card-btns{grid-template-columns:1fr}
             .main{padding:3rem 1.5rem 5rem}
+            .dev-brand{top:.75rem;right:.75rem}
+            .dev-brand img{height:24px}
         }
     </style>
 </head>
 <body>
+
+<div class="dev-brand">
+    <img src="logodev.png" alt="WLTI">
+    <span>consultoria em tecnologia</span>
+</div>
 
 <header class="header">
     <img src="logo-escuro.png" alt="BS&S Consulting">
@@ -203,6 +227,7 @@
 
 <footer class="footer">
     <p>© 2025 BS&S Consulting — Proposta de redesign desenvolvida exclusivamente para apresentação interna.</p>
+    <p style="margin-top:.5rem;font-size:.72rem;color:#cbd5e1">Desenvolvido por WLTI - Consultoria em Tecnologia</p>
 </footer>
 
 </body>
