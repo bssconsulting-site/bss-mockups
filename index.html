@@ -109,18 +109,20 @@
         .watermark-left,.watermark-right{
             position:fixed;top:50%;
             transform:translateY(-50%);
-            width:180px;
+            width:320px;
             pointer-events:none;z-index:0;
-            opacity:.18;mix-blend-mode:multiply;
+            opacity:.2;mix-blend-mode:multiply;
         }
-        .watermark-left{left:1.5rem}
-        .watermark-right{right:1.5rem}
+        .watermark-left{left:calc(50% - 760px)}
+        .watermark-right{right:calc(50% - 760px)}
         .watermark-left img,.watermark-right img{width:100%;display:block}
 
-        @media(max-width:1500px){
-            .watermark-left,.watermark-right{width:130px}
+        @media(max-width:1600px){
+            .watermark-left{left:2vw}
+            .watermark-right{right:2vw}
+            .watermark-left,.watermark-right{width:260px}
         }
-        @media(max-width:1200px){
+        @media(max-width:1100px){
             .watermark-left,.watermark-right{display:none}
         }
         @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
