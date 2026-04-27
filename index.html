@@ -105,28 +105,38 @@
         .footer{background:#fff;border-top:1px solid #e2e8f0;padding:1.5rem 5vw;text-align:center}
         .footer p{font-size:.78rem;color:#94a3b8}
 
-        /* WATERMARK */
-        .watermark{
-            position:fixed;top:50%;left:50%;
-            transform:translate(-50%,-50%);
-            width:580px;max-width:90vw;
+        /* WATERMARK LATERAL */
+        .watermark-left,.watermark-right{
+            position:fixed;top:50%;
+            transform:translateY(-50%);
+            width:180px;
             pointer-events:none;z-index:0;
-            opacity:.08;mix-blend-mode:multiply;
+            opacity:.18;mix-blend-mode:multiply;
         }
-        .watermark img{width:100%;display:block}
+        .watermark-left{left:1.5rem}
+        .watermark-right{right:1.5rem}
+        .watermark-left img,.watermark-right img{width:100%;display:block}
 
+        @media(max-width:1500px){
+            .watermark-left,.watermark-right{width:130px}
+        }
+        @media(max-width:1200px){
+            .watermark-left,.watermark-right{display:none}
+        }
         @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}}
         @media(max-width:600px){
             .grid{grid-template-columns:1fr}
             .card-btns{grid-template-columns:1fr}
             .main{padding:3rem 1.5rem 5rem}
-            .watermark{width:320px}
         }
     </style>
 </head>
 <body>
 
-<div class="watermark">
+<div class="watermark-left">
+    <img src="logodev.png" alt="WLTI">
+</div>
+<div class="watermark-right">
     <img src="logodev.png" alt="WLTI">
 </div>
 
